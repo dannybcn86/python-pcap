@@ -114,3 +114,7 @@ Aquesta funció et demana entrada per teclat i no finalitza fins que no fem un E
 print("Funció input del mòdul builtins \n--------------")
 v = input("Dime cosas: ")
 print("Resultat:",v)
+
+'''
+MANEL
+'''
