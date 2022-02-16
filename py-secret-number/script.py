@@ -48,7 +48,7 @@ def main():
     end_date = dt.datetime.now()        # Cridem de nou al mètode factory now() de la class datetime del mòdul datetime i creem un nou objecte de la data del moment en el que s'arriba a aquesta execució
     duration = end_date - start_date    # Fem la resta de les dates start_date i end_date per tenir el temps que hem trigat en terminar el joc
     
-    print(f"Total duration: {duration.total_seconds():%.2f} seconds")    # Mostrem la duració del nostre joc i li diem que ens mostri total_seconds() i formategem la variable duration per a que només mostri 2 decimals
+    print(f"Total duration: {duration.total_seconds():8.2f} seconds")    # Mostrem la duració del nostre joc i li diem que ens mostri total_seconds() i formategem la variable duration per a que només mostri 2 decimals
     print(f"Good job, {player_name}! Thanks for playing with us!")
 
 
