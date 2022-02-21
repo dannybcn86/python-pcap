@@ -107,6 +107,15 @@ def main():
             losses_round_percent = round_losses/MAX_ROUNDS*100
 
 
+            # Comprovem si ja hem arribat a les 5 victories o derrotes que fan que acabin les rondes
+            if round_wins == MAX_ROUNDS:
+                total_wins += 1
+                end_round = True
+            elif round_losses == MAX_ROUNDS:
+                total_losses = total_games - total_wins
+                end_round = True
+
+            # Mostrem per pantalla el missatge de les estadístiques, possem aquesta secció just darrere de la comprovació del final de les rondes per què s'actualitzarà el valor de {total_wins} i {total_losses}
             print("-" * 100)
             print(f"- Game number:              {total_games} (Best of 5 rounds)")
             print("-" * 100)
@@ -118,14 +127,6 @@ def main():
             print(f"- Total player wins:        {total_wins}")
             print(f"- Total computer wins:      {total_losses}")
             print("-" * 100)
-
-            if round_wins == MAX_ROUNDS:
-                total_wins += 1
-                end_round = True
-            elif round_losses == MAX_ROUNDS:
-                total_losses = total_games - total_wins
-                end_round = True
-                
 
         while not good_option:
             new_game = str.lower(input(f"Do you want to play again? (y/n): "))

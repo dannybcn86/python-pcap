@@ -36,7 +36,7 @@ print(randint(1, 10))
 print(randrange(1, 10, 2))
 print(choice("AEIOU"))
 
-'''
+
 gen1 = rnd.Random()     # Passem com estat la seed (semilla inicial)
 gen2 = rnd.Random(100)  # Passem l'estat '100'
 
@@ -53,7 +53,7 @@ while i < 20:
     print(gen2.uniform(1,10))
     print(gen2.random())
     print("-" * 50)
-'''
+
 
 for c in "hola":
     print(c)
