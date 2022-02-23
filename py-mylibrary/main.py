@@ -41,5 +41,18 @@ def main():
     for i in range(20):
         print(f"{i:02d} => Even: {mathutils.is_even(i)} || Odd: {mathutils.is_odd(i)}")
 
+    print("*" * 100)
+    print(f"Module: {planning.__name__}")
+    print("*" * 100)
+    print(f"CURRENT YEAR = {planning.current_year()}")
+    print(f"ELAPSED DAYS = {planning.elapsed_days()}")
+    print(f"REMAINING DAYS = {planning.remaining_days()}")
+    print(f"IS LEAP YEAR = {planning.is_leap_year()}")
+    print(f"TOTAL DAYS = {planning.total_days()}")
+    print(f"PREV LEAP YEAR = {planning.prev_leap_year()}")
+    print(f"NEXT LEAP YEAR = {planning.next_leap_year()}")
+    print(f"YEAR PROGRESS OF 2020 = {planning.year_progress(pretty=False,year=2020)}")
+    print(f"YEAR PROGRESS WITHOUT PRETTY MODE = {planning.year_progress(pretty=False)}")
+    print(f"YEAR PROGRESS WITH PRETTY MODE = {planning.year_progress(2020)}")
 if __name__ == "__main__":
     main()

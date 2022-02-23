@@ -29,3 +29,5 @@ def is_odd(value: int) -> bool:
     Return True if given value if an odd number, else return False
     '''
     return value % 2 != 0
+
+elevar = lambda x:x**2
