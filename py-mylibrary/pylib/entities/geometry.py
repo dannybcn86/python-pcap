@@ -7,7 +7,7 @@ class Color:
     Class Color
     '''
     # ATRIBUTS O CAMPS A NIVELL DE CLASS (STATIC/SHARED)
-    _counter = 0
+    _counter: int = 0
     
     # INICIALITZADOR D'OBJECTE ("CONSTRUCTOR")
     def __init__(self, name: str, red: int, green: int, blue: int):

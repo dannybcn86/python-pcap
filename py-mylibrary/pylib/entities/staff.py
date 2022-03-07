@@ -36,22 +36,21 @@ class Employee:
 
     # COMPORTAMENT: MÈTODES/OPERACIONS A NIVELL D'OBJECTE O INSTÀNCIA
     def fullname(self) -> str:
-        ''' Python DocString '''
+        ''' Retorna el nom complet del empleat '''
         return f"{self.fistname} {self.lastname}"
 
     def reverse_name(self) -> str:
-        ''' Python DocString '''
+        ''' Retorna el nom complet amb el format <lastname>,<firstname> del empleat '''
         return f"{self.lastname}, {self.fistname}"
 
     def age(self) -> int:
-        ''' Python DocString '''
+        ''' Retorna edat del empleat '''
         # fecha actual - fecha del nacimiento
         interval =  date.today() - self.birthdate
-        
         return math.floor(interval.days/365)
 
     def bmi(self) -> tuple[float|str]:
-        ''' Python DocString '''
+        ''' Retorna el bmi del empleat '''
         bmi = self.weight / math.pow(self.height, 2)
         status = strutils.EMPTY
 

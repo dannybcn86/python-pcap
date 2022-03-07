@@ -10,7 +10,7 @@ DEGREES = "\u00B0"
 DEGREES_CELSIUS = "\u2103"
 DEGREES_FAHRENHEIT = "\u2109"
 PRIME = "\u2032"
-DOBULE_PRIME = "\u2033"
+DOUBLE_PRIME = "\u2033"
 
 # FUNCIONS A NIVELL DE CLASS
 def truncate(text: str, max_length: int, placeholder: str = "...") -> str:

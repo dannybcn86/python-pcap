@@ -43,7 +43,7 @@ def main():
     print(f"DEGREES_CELSIUS = {strutils.DEGREES_CELSIUS}")
     print(f"DEGREES_FAHRENHEIT = {strutils.DEGREES_FAHRENHEIT}")
     print(f"PRIME = {strutils.PRIME}")
-    print(f"DOUBLE_PRIME = {strutils.DOBULE_PRIME}")
+    print(f"DOUBLE_PRIME = {strutils.DOUBLE_PRIME}")
 
     for i in range(20):
         print(f"{i:02d} => Even: {mathutils.is_even(i)} || Odd: {mathutils.is_odd(i)}")
@@ -108,12 +108,38 @@ def main():
     print(F"Latitude: ({Location.MIN_LATITUDE:+},{Location.MAX_LATITUDE:+})")
     print(F"Longitude: ({Location.MIN_LONGITUDE:+},{Location.MAX_LONGITUDE:+})")
     print(F"Counter: {Location._counter}")
-    l1 = Location(latitude = 0.0, longitude = 0.0)
-    l2 = Location(latitude = 0.0, longitude = 0.0)
-    l3 = Location(latitude = 0.0, longitude = 0.0)
-    l4 = Location(latitude = 0.0, longitude = 0.0)
-    l5 = Location(latitude = 0.0, longitude = 0.0)
-    locations = [l1,l2,l3,l4,l5]
+    mad = Location(latitude = 40.4165, longitude = -3.7035825)
+    bcn = Location(latitude = 41.3828939, longitude = 2.1774322)
+    paris = Location(latitude = 48.8588897, longitude = 2.320041)
+    ny = Location(latitude = 40.7127281, longitude = -74.0060152)
+    london = Location(latitude = 51.5073219, longitude = -0.1276474)
+    locations = [mad,bcn,paris,ny,london]
+
+    for location in locations:
+        print("-" * 150)
+        print(f"Latitude: {location.latitude_deg(decimals = 3, cpoint = False)}")
+        print(f"Longitude: {location.longitude_deg(decimals = 3, cpoint = False)}")
+        print(f"Latitude cpoint: {location.latitude_deg(decimals = 3)}")
+        print(f"Longitude cpoint: {location.longitude_deg(decimals = 3)}")
+        print(f"Coordenate deg: {location.to_degrees(decimals = 3, cpoint = False)}")
+        print(f"Coordenate deg cpoint: {location.to_degrees(decimals = 3)}")
+        print("-" * 150)
+        print(f"Latitude dms: {location.latitude_dms(decimals = 4, cpoint = False)}")
+        print(f"Logitude dms: {location.longitude_dms(decimals = 4, cpoint = False)}")
+        print(f"Latitude dms cpoint: {location.latitude_dms(decimals = 4)}")
+        print(f"Logitude dms cpoint: {location.longitude_dms(decimals = 4)}")
+        print(f"Coordenate dms: {location.to_dms(decimals = 3, cpoint = False)}")
+        print(f"Coordenate dms cpoint: {location.to_dms(decimals = 3)}")
+        print("-" * 150)
+
+    print(f"BCN-MAD: {bcn.distance_to(mad)} Km")
+    print(f"BCN-NY: {bcn.distance_to(ny)} Km")
+    print(f"BCN-LONDON: {bcn.distance_to(london)} Km")
+    print("*" * 150)
+    print(f"BCN-MAD: {bcn.midpoint_to(mad).to_degrees()}")
+    print(f"BCN-NY: {bcn.midpoint_to(ny).to_degrees()}")
+    print(f"BCN-PARIS: {bcn.midpoint_to(paris).to_degrees()}")
+
 
     c1 = Color(name = "Black", red = 0, green = 0, blue = 0)
     c2 = Color(name = "White", red = 255, green = 255, blue = 255)
