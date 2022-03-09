@@ -8,6 +8,8 @@ import math
 PI:float = 3.141592653589793
 E:float = 2.718281828459045
 PHI:float = (1 + math.sqrt(5))/2 # 1618033988749894...
+BASE_HEX: int = 16
+BASE_BINARY: int = 2
 
 # Retornem el valor absolut on a la entrada notem que el valor que esperem és un número sencer o flotant (int|float) i la devolució esperada (-> int|float) tot i que no forcem res sinó que és informatiu [Type Hint]
 def abs(value: int|float) -> int|float:

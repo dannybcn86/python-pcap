@@ -1,10 +1,20 @@
 '''
 Geography Module
 '''
-from pylib.utils import strutils
 import math
+import random
+from pylib.utils import strutils
 
+# ATRIBUTS, VARIABLES GLOBALS O MÈTODES A NIVEL DE MÒDUL
 EARTH_RADIUS = 6370
+
+def degrees_to_dms(value: float) -> tuple[int,int,float]:
+    '''Python DocString'''
+    degrees = int(value)
+    fminutes = abs(value -degrees) * 60
+    minutes = int(fminutes)
+    seconds = (fminutes - minutes) * 60
+    return (degrees, minutes, seconds)
 
 class Location:
     '''
@@ -23,6 +33,36 @@ class Location:
         self.latitude = latitude
         self.longitude = longitude
 
+    @property
+    def name(self):
+        '''Python DocString'''
+        return self._name
+
+    @name.setter
+    def name(self, value: str):
+        '''Python DocString'''
+        self._name = value
+
+    @property
+    def latitude(self):
+        '''Python DocString'''
+        return self._latitude
+    
+    @latitude.setter
+    def latitude(self, value: float):
+        '''Python DocString'''
+        self._latitude = value
+
+    @property
+    def longitude(self):
+        '''Python DocString'''
+        return self._longitude
+
+    @longitude.setter
+    def longitude(self, value: float):
+        '''Python DocString'''
+        self._longitude = value
+
 
     # Interpolations strings
 
@@ -37,7 +77,7 @@ class Location:
         '''
         Python DocString
         '''
-        
+
         return f"{abs(self.longitude):.{decimals}f} {strutils.DEGREES} {'E' if self.longitude > 0 else 'O'}" if cpoint else f"{self.longitude:.{decimals}f} {strutils.DEGREES}"
 
     
@@ -57,10 +97,8 @@ class Location:
         '''
         Python DocString
         '''
-        degrees = int(self.latitude)
-        ms = (self.latitude - degrees) * 60
-        minutes = int(ms)
-        seconds = (ms - minutes) * 60
+        # Tuple unpaking
+        (degrees, minutes, seconds) = degrees_to_dms(self.latitude)
 
         return f"{abs(degrees):.{decimals}f}{strutils.DEGREES} {'N' if degrees > 0 else 'S'} {abs(minutes):.{decimals}f}{strutils.PRIME} {abs(seconds):.{decimals}f}{strutils.DOUBLE_PRIME}" if cpoint else f"{degrees:.{decimals}f}{strutils.DEGREES} {minutes:.{decimals}f}{strutils.PRIME} {seconds:.{decimals}f}{strutils.DOUBLE_PRIME}"
 
@@ -69,10 +107,8 @@ class Location:
         '''
         Python DocString
         '''
-        degrees = int(self.longitude)
-        ms = (self.longitude - degrees) * 60
-        minutes = int(ms)
-        seconds = (ms - minutes) * 60
+        # Tuple unpacking
+        (degrees, minutes, seconds) = degrees_to_dms(self.longitude)
 
         return f"{abs(degrees):.{decimals}f}{strutils.DEGREES} {'E' if degrees > 0 else 'O'} {abs(minutes):.{decimals}f}{strutils.PRIME} {abs(seconds):.{decimals}f}{strutils.DOUBLE_PRIME}" if cpoint else f"{degrees:.{decimals}f}{strutils.DEGREES} {minutes:.{decimals}f}{strutils.PRIME} {seconds:.{decimals}f}{strutils.DOUBLE_PRIME}"
 
@@ -91,12 +127,9 @@ class Location:
         '''
         Python DocString
         '''
-        rlat1 = math.radians(self.latitude)
-        rlong1 = math.radians(self.longitude)
-        rlat2 = math.radians(other.latitude)
-        rlong2 = math.radians(other.longitude)
-        dlat = rlat2 -rlat1
-        dlong = rlong2 - rlong1
+        # Tuple unpacking
+        (rlat1,rlong1,rlat2,rlong2,dlat,dlong) = self._convert_radians(self, other)
+
         a = math.pow(math.sin(dlat/2), 2) + math.cos(rlat1) * math.cos(rlat2) * math.pow(math.sin(dlong/2), 2)
         c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
         return EARTH_RADIUS * c
@@ -106,15 +139,36 @@ class Location:
         '''
         Python DocString
         '''
-        rlat1 = math.radians(self.latitude)
-        rlong1 = math.radians(self.longitude)
-        rlat2 = math.radians(other.latitude)
-        rlong2 = math.radians(other.longitude)
-        dlat = rlat2 -rlat1
-        dlong = rlong2 - rlong1
+        # Tuple unpacking
+        (rlat1,rlong1,rlat2,rlong2,dlat,dlong) = self._convert_radians(self, other)
+
         bx = math.cos(rlat2) * math.cos(dlong)
         by = math.cos(rlat2) * math.sin(dlong)
         lat = math.degrees(math.atan2(math.sin(rlat1) + math.sin(rlat2), math.sqrt((math.cos(rlat1) + bx) ** 2 + by ** 2)))
         long = math.degrees(rlong1 + math.atan2(by, math.cos(rlat1) + bx))
 
         return Location(lat, long)
+
+    @classmethod
+    def random(cls) -> 'Location': # A la versió de python 3.11 es pot definir un type hinting amb -> Self ja que és una sortida del tipus del mateix objecte
+        '''Python DocString'''
+        
+        return Location(latitude = random.uniform(Location.MIN_LATITUDE, Location.MAX_LATITUDE), longitude = random.uniform(Location.MIN_LONGITUDE, Location.MAX_LONGITUDE))
+        
+        # També podem fer referència directament 'return cls()'
+        # return cls(name = "", latitude = random.uniform(cls.MIN_LATITUDE, cls.MAX_LATITUDE), longitude = random.uniform(cls.MIN_LONGITUDE, cls.MAX_LONGITUDE))
+
+    @classmethod
+    def count(cls) -> int:
+        '''Python DocString'''
+        return cls._counter
+
+    @staticmethod
+    def _convert_radians(l1: 'Location', l2: 'Location') -> tuple[float,float,float,float,float,float]:
+        rlat1 = math.radians(l1.latitude)
+        rlong1 = math.radians(l1.longitude)
+        rlat2 = math.radians(l2.latitude)
+        rlong2 = math.radians(l2.longitude)
+        dlat = rlat2 -rlat1
+        dlong = rlong2 - rlong1
+        return (rlat1,rlong1,rlat2,rlong2,dlat,dlong)

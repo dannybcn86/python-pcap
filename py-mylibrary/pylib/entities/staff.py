@@ -18,7 +18,7 @@ class Employee:
 
     # INICIALITZADOR D'OBJECTE ("CONSTRUCTOR")
     # Magic Method __init__ (Dunders)
-    def __init__(self, firstname: str, lastname: str, birthdate: date, height: float, weight: float, monthly_salary: float = DEFAULT_SALARY, payments: int = DEFAULT_PAYMENTS):
+    def __init__(self, firstname: str, lastname: str, birthdate: date, height: float, weight: float, hiredate : date = date.today(), monthly_salary: float = DEFAULT_SALARY, payments: int = DEFAULT_PAYMENTS):
         '''
         Definim el nostre inicialitzador d'objecte
         '''
@@ -31,6 +31,7 @@ class Employee:
         self.birthdate = birthdate
         self.height = height
         self.weight = weight
+        self.hiredate = hiredate
         self.monthly_salary = monthly_salary
         self.payments = payments
 
@@ -48,6 +49,12 @@ class Employee:
         # fecha actual - fecha del nacimiento
         interval =  date.today() - self.birthdate
         return math.floor(interval.days/365)
+
+    def seniority(self) -> int:
+        '''Python DocString'''
+        interval = date.today() - self.hiredate # D'una operació amb dates obtenim un objecte de tipus timedelta
+        return interval.days
+        # raise NotImplementedError("Error no implementado aún!")
 
     def bmi(self) -> tuple[float|str]:
         ''' Retorna el bmi del empleat '''

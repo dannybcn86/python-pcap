@@ -84,8 +84,8 @@ def main():
     print(F"DEFAULT_SALARY: {Employee.DEFAULT_SALARY} €")
     print(F"DEFAULT_PAYMENTS: {Employee.DEFAULT_PAYMENTS}")
     print(F"Counter: {Employee._counter}")
-    e1 = Employee(firstname = "Jordi", lastname = "Ariño", birthdate = date(year = 1980, month = 10, day = 23), height = 1.86, weight = 80)
-    e2 = Employee(firstname = "Ramon", lastname = "Carles", birthdate = date(year = 1980, month = 10, day = 23), height = 1.76, weight = 85)
+    e1 = Employee(firstname = "Jordi", lastname = "Ariño", birthdate = date(year = 1980, month = 10, day = 23), height = 1.86, weight = 80, hiredate = date(year = 2022, month = 3, day = 1 ))
+    e2 = Employee(firstname = "Ramon", lastname = "Carles", birthdate = date(year = 1980, month = 10, day = 23), height = 1.76, weight = 85, hiredate = date(year = 2022, month = 3, day = 9 ))
     e3 = Employee(firstname = "Elisabet", lastname = "Castro", birthdate = date(year = 1980, month = 10, day = 23), height = 1.80, weight = 90)
     e4 = Employee(firstname = "Enrique", lastname = "Ramirez", birthdate = date(year = 1980, month = 10, day = 23), height = 1.70, weight = 75)
     e5 = Employee(firstname = "Jordi", lastname = "Alejandro", birthdate = date(year = 1980, month = 10, day = 23), height = 1.90, weight = 95)
@@ -98,6 +98,7 @@ def main():
         print(F"Birthdate: {employee.birthdate}")
         print(F"Monthly Salary: {employee.monthly_salary}")
         print(F"Payments: {employee.payments}")
+        print(F"Seniority: {employee.seniority()}")
         print("-" * 150)
         print(F"Fullname: {employee.fullname()}")
         print(F"Reversename: {employee.reverse_name()}")
@@ -113,7 +114,9 @@ def main():
     paris = Location(latitude = 48.8588897, longitude = 2.320041)
     ny = Location(latitude = 40.7127281, longitude = -74.0060152)
     london = Location(latitude = 51.5073219, longitude = -0.1276474)
-    locations = [mad,bcn,paris,ny,london]
+    prnd1 = Location.random()
+    prnd2 = Location.random()
+    locations = (mad,bcn,paris,ny,london, prnd1, prnd2)
 
     for location in locations:
         print("-" * 150)
@@ -140,14 +143,25 @@ def main():
     print(f"BCN-NY: {bcn.midpoint_to(ny).to_degrees()}")
     print(f"BCN-PARIS: {bcn.midpoint_to(paris).to_degrees()}")
 
+    print(f"Count: {Location.count()}")
+
 
     c1 = Color(name = "Black", red = 0, green = 0, blue = 0)
     c2 = Color(name = "White", red = 255, green = 255, blue = 255)
     c3 = Color(name = "Black", red = 0, green = 0, blue = 0)
     c4 = Color(name = "Black", red = 0, green = 0, blue = 0)
     c5 = Color(name = "White", red = 255, green = 255, blue = 255)
-    colors = [c1,c2,c3,c4,c5]
+    c6 = Color.random() 
+    c7 = Color.random()
+    c8 = Color.from_hex("#FF0000")
+    c9 = Color.from_hex("#008000")
+    colors = (c1,c2,c3,c4,c5,c6,c7,c8,c9)
 
+    for color in colors:
+        print("-" * 150)
+        print(f"Color: {color.to_hex()}")
+        print(f"Color: {color.to_rgb()}")
+        print("-" * 150)
 
 
 if __name__ == "__main__":
