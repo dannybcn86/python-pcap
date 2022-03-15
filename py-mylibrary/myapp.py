@@ -105,6 +105,22 @@ def main():
         print(F"Age: {employee.age()} years")
         print(F"BMI: {employee.bmi()}")
         print("-" * 150)
+    
+    # Comparativa amb els magic methods __lt__, __le__, __gt__, __ge__
+    print("*" * 150)
+    print("Comparamos empleados e1 y e2")
+    print("*" * 150)
+    print(e1 > e2)
+    print(e1 < e2)
+    print(e1 >= e2)
+    print(e1 <= e2)
+    print(len(e1))
+    # Modifiquem el sou del empleat fent les següents operacions i reescribim el seu sou
+    e1 * 5
+    e1 + 100
+    e1 - 100
+    e1 / 5
+    print("*" * 150)
 
     print(F"Latitude: ({Location.MIN_LATITUDE:+},{Location.MAX_LATITUDE:+})")
     print(F"Longitude: ({Location.MIN_LONGITUDE:+},{Location.MAX_LONGITUDE:+})")
@@ -155,6 +171,15 @@ def main():
     c7 = Color.random()
     c8 = Color.from_hex("#FF0000")
     c9 = Color.from_hex("#008000")
+    
+    print("*" * 150)
+    print("*" * 150)
+    c1.red = 250 # Accedim a l'objecte en mode setter
+    coord = Location(latitude = 90.0, longitude = 180.0)
+    print(vars(c1)) # Accedim a l'objecte en mode getter
+    print("*" * 150)
+    print("*" * 150)
+    
     colors = (c1,c2,c3,c4,c5,c6,c7,c8,c9)
 
     for color in colors:

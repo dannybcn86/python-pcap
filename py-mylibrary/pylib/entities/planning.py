@@ -2,6 +2,7 @@
 Planning Module
 '''
 import datetime as dt
+from pylib.entities import geometry
 
 # CONSTANTS DE L'ORDRE DE CADA MÉS A L'ANY
 JANUARY = 1
@@ -97,4 +98,141 @@ def year_progress(pretty: bool = True, year: int = current_year()) -> float|str:
 
 # TIPUS DE DADES PROPIS (CLASSES)
 class Event:
-    pass
+    '''
+    Class Event
+    '''
+    # ATRIBUTS O CAMPS A NIVELL DE CLASS (STATIC/SHARED)
+    MIN_VALUE: 'dt.date' = dt.date.today()
+    _counter: int = 0
+    
+    # INICIALITZADOR D'OBJECTE ("CONSTRUCTOR")
+    def __init__(self, id: str, name: int, date: 'dt.date', start_time: 'dt.datetime.time', end_time: 'dt.datetime.time', background_color: 'geometry.Color', public: bool, description: str):
+        Event._counter += 1
+        self.id = id
+        self.name = name
+        self.date = date
+        self.start_time = start_time
+        self.end_time = end_time
+        self.background_color = background_color
+        self.public = public
+        self.description = description
+
+    def duration():
+        '''Python DocString'''
+        pass
+
+    def is_after():
+        '''Python DocString'''
+        pass
+
+    def is_before():
+        '''Python DocString'''
+        pass
+
+    def overloads():
+        '''Python DocString'''
+        pass
+
+    @property
+    def id(self):
+        '''Python DocString'''
+        return self._id
+    
+    @id.setter
+    def id(self, value: str) ->str:
+        '''Python DocString'''
+        if not isinstance(value, str):
+            raise TypeError("The id must be of type string.")
+        self._id = value
+    
+    @property
+    def name(self):
+        '''Python DocString'''
+        return self._name
+    
+    @name.setter
+    def name(self, value: str):
+        '''Python DocString'''
+        if not isinstance(value, str):
+            raise TypeError("The name must be of type string.")
+        self._name = value
+
+    @property
+    def date(self):
+        '''Python DocString'''
+        return self._date
+    
+    @date.setter
+    def date(self, value: 'dt.date'):
+        '''Python DocString'''
+        if not isinstance(value, dt.date):
+            raise TypeError("The name must be of type datetime.date")
+        if not value >= Event.MIN_VALUE:
+            raise ValueError("The date of the event must be greather then or equal to today.")
+        self._date = value
+
+    @property
+    def start_time(self):
+        '''Python DocString'''
+        return self._date
+    
+    @start_time.setter
+    def start_time(self, value: 'dt.datetime.time'):
+        '''Python DocString'''
+        if not isinstance(value, dt.datetime.time):
+            raise TypeError("The name must be of type datetime.datetime.time")
+        self._start_time = value
+
+    @property
+    def end_time(self):
+        '''Python DocString'''
+        return self._date
+    
+    @end_time.setter
+    def end_time(self, value: 'dt.datetime.time'):
+        '''Python DocString'''
+        if not isinstance(value, dt.datetime.time):
+            raise TypeError("The name must be of type datetime.datetime.time")
+        if not value > Event.start_time:
+            raise ValueError("End time must be greather than start time.")
+        self._end_time = value
+
+    @property
+    def background_color(self):
+        '''Python DocString'''
+        return self._date
+    
+    @background_color.setter
+    def background_color(self, value: 'geometry.Color'):
+        '''Python DocString'''
+        if not isinstance(value, geometry.Color):
+            raise TypeError("The name must be of type geometry.Color")
+        self._background_color = value
+
+    @property
+    def public(self):
+        '''Python DocString'''
+        return self._public
+    
+    @public.setter
+    def public(self, value: bool):
+        '''Python DocString'''
+        if not isinstance(value, bool):
+            raise TypeError("The public must be of type bool.")
+        self._public = value
+    
+    @property
+    def description(self):
+        '''Python DocString'''
+        return self._description
+    
+    @description.setter
+    def description(self, value: str):
+        '''Python DocString'''
+        if not isinstance(value, str):
+            raise TypeError("The description must be of type str.")
+        self._description = value
+    
+    def __len__(self, value: 'Event') -> tuple[dt.datetime.hour|dt.datetime.minute]:
+        '''Python DocScrint'''
+        return duration(value)

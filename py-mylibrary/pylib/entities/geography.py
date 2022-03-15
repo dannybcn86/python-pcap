@@ -41,6 +41,8 @@ class Location:
     @name.setter
     def name(self, value: str):
         '''Python DocString'''
+        if not isinstance(value, str):
+            raise TypeError("The name must be of type string.")
         self._name = value
 
     @property
@@ -49,8 +51,12 @@ class Location:
         return self._latitude
     
     @latitude.setter
-    def latitude(self, value: float):
+    def latitude(self, value: 'float|int'):
         '''Python DocString'''
+        if not isinstance(value, float) and not isinstance(value, int):
+            raise TypeError("The latitude must be of type float or int.")
+        if value < Location.MIN_LATITUDE or value > Location.MAX_LATITUDE:
+            raise ValueError(f"The latitude is out of range. Range: {Location.MIN_LATITUDE}, {Location.MAX_LATITUDE}")
         self._latitude = value
 
     @property
@@ -59,8 +65,12 @@ class Location:
         return self._longitude
 
     @longitude.setter
-    def longitude(self, value: float):
+    def longitude(self, value: 'float|int'):
         '''Python DocString'''
+        if not isinstance(value, float) and not isinstance(value, int):
+            raise TypeError("The latitude must be of type float or int.")
+        if value < Location.MIN_LONGITUDE or value > Location.MAX_LONGITUDE:
+            raise ValueError(f"The longitude is out of range. Range: {Location.MIN_LONGITUDE}, {Location.MAX_LONGITUDE}")
         self._longitude = value
 
 
@@ -148,6 +158,31 @@ class Location:
         long = math.degrees(rlong1 + math.atan2(by, math.cos(rlat1) + bx))
 
         return Location(lat, long)
+
+    # Magic Methods
+    def __str__(self) -> str:
+        '''Python DocString'''
+        return f"{self.name} > {self.to_dms()}"
+
+    def __eq__(self, other: 'Location') -> bool:
+        '''Python DocString'''
+        if not isinstance(other, Location):
+            raise TypeError(f"The value to compare must be of type Location")
+        
+        return self.latitude == other.latitude and self.longitude == other.longitude
+    
+    def __ne__(self, other: 'Location') -> bool:
+        '''Python DocString'''
+        if not isinstance(other, Location):
+            raise TypeError(f"The value to compare must be of type Location")
+        return not self.__eq__(other)
+
+    def __sub__(self, other: 'Location') -> 'Location':
+        if not isinstance(other, Location):
+            raise TypeError(f"The value to substract mustn't be of type Location")
+        
+        return self.midpoint_to(other)
+
 
     @classmethod
     def random(cls) -> 'Location': # A la versió de python 3.11 es pot definir un type hinting amb -> Self ja que és una sortida del tipus del mateix objecte

@@ -75,3 +75,67 @@ class Employee:
             status = "Obesity class III"
         
         return (bmi, status)
+
+    # Magic Methods
+    def __str__(self) -> str:
+        return f"{self.code} > {self.fullname}"
+
+    def __len__(self) -> int:
+        '''Python String'''
+        return self.seniority()
+ 
+    def __lt__(self, other: 'Employee') -> bool:
+        '''Pyton DocString'''
+        if not isinstance(other, Employee):
+            raise TypeError("You can only compare with another Employee")
+        return self.age() < other.age()
+    
+    def __le__(self, other: 'Employee') -> bool:
+        '''Pyton DocString'''
+        if not isinstance(other, Employee):
+            raise TypeError("You can only compare with another Employee")
+        return self.age() <= other.age()
+    
+    def __gt__(self, other: 'Employee') -> bool:
+        '''Pyton DocString'''
+        if not isinstance(other, Employee):
+            raise TypeError("You can only compare with another Employee")
+        return self.age() > other.age()
+
+    def __ge__(self, other: 'Employee') -> bool:
+        '''Pyton DocString'''
+        if not isinstance(other, Employee):
+            raise TypeError("You can only compare with another Employee")
+        return self.age() >= other.age()
+
+    def __add__(self, value: int|float):
+        '''Python DocString'''
+        if not isinstance(value, int) and not isinstance(value, float):
+            raise TypeError("You can only operate with int or float object type")
+        self.monthly_salary += value
+
+    def __sub__(self, value: int|float):
+        '''Python DocString'''
+        if not isinstance(value, int) and not isinstance(value, float):
+            raise TypeError("You can only operate with int or float object type")
+        self.monthly_salary -= value
+        
+    
+    def __mul__(self, value: int|float):
+        '''Python DocString'''
+        if not isinstance(value, int) and not isinstance(value, float):
+            raise TypeError("You can only operate with int or float object type")
+        self.monthly_salary *= value
+        
+
+    def __truediv__(self, value: int|float):
+        '''Python DocString'''
+        if not isinstance(value, int) and not isinstance(value, float):
+            raise TypeError("You can only operate with int or float object type")
+        self.monthly_salary /= value
+
+    def __del__(self):
+        '''Python DocString'''
+        print("-" * 100)
+        print(f"Estoy muriendome --> {self.__str__()}") # Es igual que hacer lo siguiente: print(f"Estoy muriendome --> {str(self)}")
+        print("-" * 100)
