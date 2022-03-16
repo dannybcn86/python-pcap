@@ -2,9 +2,13 @@
 Geometry Module
 '''
 import random
+
+from numpy import greater_equal
 from pylib.utils import mathutils
 
-class Color:
+DEFAULT_BG_COLOR = "#CCCCCC"
+
+class Color(object):
     '''
     Class Color
     '''
@@ -117,3 +121,77 @@ class Color:
     @classmethod
     def counter(cls) -> int:
         return cls._counter
+
+class AlphaColor(Color):
+    '''Class AlphaColor'''
+    # ATRIBUTS O CAMPS A NIVELL DE CLASS (STATIC/SHARED)
+    MIN_ALPHA = 0
+    MAX_ALPHA = 100
+    
+    def __init__(self, name: str, red: int, green: int, blue: int, alpha: int):
+        # INICIALITZADOR D'OBJECTE ("CONSTRUCTOR")
+        super().__init__(name, red, green, blue)
+        self._alpha = alpha
+        
+    @property
+    def alpha(self) ->int:
+        return self._alpha
+    
+    @alpha.setter
+    def alpha(self, value: int) -> int:
+        if not isinstance(value, int):
+            raise TypeError("The alpha must be of type integer.")
+        if not AlphaColor.MIN_ALPHA <= value <= AlphaColor.MAX_ALPHA:
+            raise ValueError(f"Alpha coordinate is out of range. MIN_ALPHA: {AlphaColor.MIN_ALPHA} - MAX_ALPHA: {AlphaColor.MAX_VALUE}")
+
+    def to_hex(self, upper: bool = True) -> str:
+        '''Python DocString'''
+        return f"{super().to_hex(upper)} - A: {self.alpha}%"
+    
+    def to_rgb(self) -> str:
+        '''Python DocString'''
+        return f"{super().to_rgb()} - A: {self.alpha}%"
+
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    '''Python DocString'''
+    def __init__(self, background_color: 'Color', fore_color: 'Color') -> None:
+        self.background_color = background_color
+        self.fore_color = fore_color
+
+    @abstractmethod # Per obligar a que una class que hereti les característiques d'aquesta class hagi de reeditar aquest mètode 'area()'
+    def area(self):
+        '''Python DocString'''
+        return
+        # raise NotImplementedError("Not implemented")
+    
+    @abstractmethod
+    def perimeter(self) -> float:
+        return
+
+    @abstractmethod
+    def volume(self) -> float:
+        return
+
+class Square(Shape):
+    '''Python DocString'''
+    def __init__(self, side: float|int, background_color: 'Color' = Color.from_hex("#CCCCCC"), fore_color: 'Color' = Color.from_hex("#BBBBBB")) -> None:
+        super().__init__(background_color, fore_color)
+        self.side = side
+
+    @property
+    def side(self) -> float|int:
+        return self._side
+
+    @side.setter
+    def side(self, value) -> float|int:
+        self._side = value
+
+class Rectangle(Shape):
+    '''Python DocString'''
+    pass
+
+class Triangle(Shape):
+    '''Python DocString'''
+    pass

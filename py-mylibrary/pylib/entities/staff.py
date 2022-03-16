@@ -7,7 +7,7 @@ import math
 from pylib.utils import strutils
 
 
-class Employee:
+class Employee(object):
     '''
     Class Employee
     '''
@@ -76,6 +76,10 @@ class Employee:
         
         return (bmi, status)
 
+    def annual_salary(self) -> float:
+        '''Python DocString'''
+        return self.monthly_salary * self.payments
+
     # Magic Methods
     def __str__(self) -> str:
         return f"{self.code} > {self.fullname}"
@@ -139,3 +143,33 @@ class Employee:
         print("-" * 100)
         print(f"Estoy muriendome --> {self.__str__()}") # Es igual que hacer lo siguiente: print(f"Estoy muriendome --> {str(self)}")
         print("-" * 100)
+
+
+class SalesEmployee(Employee):
+    '''Class SalesEmployee'''
+    # ATRIBUTS O CAMPS A NIVELL DE CLASS (STATIC/SHARED)
+    DEFULT_COMMISSION: float = 3000
+
+    # INICIALITZADOR D'OBJECTE ("CONSTRUCTOR")
+    # Magic Method __init__ (Dunders)
+    # def __init__(self, commission: float = DEFULT_COMMISSION):
+    def __init__(self, firstname: str, lastname: str, birthdate: date, height: float, weight: float, hiredate: date = date.today(), monthly_salary: float = Employee.DEFAULT_SALARY, payments: int = Employee.DEFAULT_PAYMENTS, commission: float = DEFULT_COMMISSION):
+        '''
+        Definim el nostre inicialitzador d'objecte
+        '''
+        super().__init__(firstname, lastname, birthdate, height, weight, hiredate, monthly_salary, payments)
+        # Inicialitzem els atributs o camps d'instància o objecte (self.XXX)
+        self.commission = commission
+    
+    @property
+    def commission(self) -> float:
+        return self._commission
+    
+    @commission.setter
+    def commission(self, value):
+        self._commission = value
+
+    def annual_salary(self) -> float:
+        '''Python DocString'''
+        print("-->Soy un comercial y he redefinido esta operación")
+        return super().annual_salary() + self.commission

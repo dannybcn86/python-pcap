@@ -3,6 +3,7 @@ Planning Module
 '''
 import datetime as dt
 from pylib.entities import geometry
+from pylib.utils import strutils
 
 # CONSTANTS DE L'ORDRE DE CADA MÉS A L'ANY
 JANUARY = 1
@@ -96,17 +97,29 @@ def year_progress(pretty: bool = True, year: int = current_year()) -> float|str:
 
     #raise NotImplementedError("Not yet implemented!!!")
 
+def to_timestamp(date: 'dt.date', time: 'dt.datetime'):
+    '''Python DocString'''
+    ourdatetime = f"{date}, {time}"
+
+    return dt.datetime.strptime(ourdatetime)
+
+def to_dhm(diff_timestamp):
+    '''Python DocString'''
+    return (dt.datetime.fromtimestamp(diff_timestamp).day,dt.datetime.fromtimestamp(diff_timestamp).hour, dt.datetime.fromtimestamp(diff_timestamp).minute)
+
 # TIPUS DE DADES PROPIS (CLASSES)
 class Event:
     '''
     Class Event
     '''
     # ATRIBUTS O CAMPS A NIVELL DE CLASS (STATIC/SHARED)
-    MIN_VALUE: 'dt.date' = dt.date.today()
+    MIN_DAY: 'dt.date' = dt.date.today()
+    MIN_TIME = dt.time(hour=0, minute=0)
+    MAX_TIME = dt.time(hour=23,minute=59)
     _counter: int = 0
     
     # INICIALITZADOR D'OBJECTE ("CONSTRUCTOR")
-    def __init__(self, id: str, name: int, date: 'dt.date', start_time: 'dt.datetime.time', end_time: 'dt.datetime.time', background_color: 'geometry.Color', public: bool, description: str):
+    def __init__(self, name: int, date: 'dt.date', id: str=strutils.randcode(), start_time: 'dt.datetime' = MIN_TIME, end_time: 'dt.datetime' = MAX_TIME, background_color: 'geometry.Color' = geometry.DEFAULT_BG_COLOR, public: bool = True, description: str = strutils.EMPTY):
         Event._counter += 1
         self.id = id
         self.name = name
@@ -117,19 +130,75 @@ class Event:
         self.public = public
         self.description = description
 
-    def duration():
+    
+    def duration(self, date: 'dt.date.day', start_time: 'dt.datetime', end_time: 'dt.datetime'):
         '''Python DocString'''
+        start_timestamp = dt.datetime.combine(date = date, time=start_time).timestamp()
+        end_timestamp = dt.datetime.combine(date = date, time=end_time).timestamp()
+        diff_timestamp = end_timestamp - start_timestamp
+        (dia, hora, minut) = to_dhm(diff_timestamp)
+        return (hora,minut)
+
+    def time_left(self,date:dt.date, start_time:dt.time) -> 'tuple[dt.date|dt.time|dt.time]|str':
+        '''Temps que queda per iniciar el event'''
+        aratimestamp = dt.datetime.now().timestamp()
+        datainicitimestamp = dt.datetime.combine(date = date, time=start_time).timestamp()
+        
+        if aratimestamp < datainicitimestamp:
+            diff_timestamp = datainicitimestamp - aratimestamp
+            (dia, hora, minut) =  to_dhm(diff_timestamp)
+            return (dia, hora, minut)
+        else:
+            print("L'event està succeint o ja ha succeit")
+
+    def time_passed(self,date:dt.date, end_time:dt.time) ->bool:
+        '''Temps des de la data de finalització del event'''
+        aratimestamp = dt.datetime.now().timestamp()
+        datafitimestamp = dt.datetime.combine(date = date, time=end_time).timestamp()
+        
+        if aratimestamp > datafitimestamp:
+            diff_timestamp = aratimestamp - datafitimestamp
+            (dia, hora, minut) = to_dhm(diff_timestamp)
+            return (dia, hora, minut)
+        else:
+            print("L'event està succeint o encara no ha succeit")
+
+    def uncoming(self, date:dt.date, start_time:dt.time) ->bool:
+        '''La funció retorna True si encara no ha començat'''
+        aratimestamp = dt.datetime.now().timestamp()
+        datainicitimestamp = dt.datetime.combine(date = date, time=start_time).timestamp()
+        
+        return True if aratimestamp < datainicitimestamp else False
+
+    def inprogress(self, date:dt.date, start_time:dt.time, end_time:dt.time) -> bool:
+        '''La funció retorna True si està succeint'''
+        aratimestamp = dt.datetime.now().timestamp()
+        datainicitimestamp = dt.datetime.combine(date = date, time=start_time).timestamp()
+        datafitimestamp = dt.datetime.combine(date = date, time=end_time).timestamp()
+
+        return True if datainicitimestamp <= aratimestamp <= datafitimestamp else False
+
+    def finished(self, date:dt.date, end_time:dt.time) -> bool:
+        '''La funció retorna True si ha finalitzat'''
+        aratimestamp = dt.datetime.now().timestamp()
+        datafitimestamp = dt.datetime.combine(date = date, time=end_time).timestamp()
+
+        return True if aratimestamp > datafitimestamp else False
+
+    def is_before(self, other: 'Event') -> bool:
+        '''La funció retorna True si el nou event és avans del primer'''
         pass
 
-    def is_after():
-        '''Python DocString'''
+    def is_after(self, other: 'Event') -> bool:
+        '''La funció retorna True si el nou event és després del primer'''
         pass
 
-    def is_before():
-        '''Python DocString'''
+    def overloaps(self, other: 'Event') -> bool:
+        '''La funció retorna True si el nou event coincideix amb el primer'''
         pass
 
-    def overloads():
+    @classmethod
+    def sample(cls):
         '''Python DocString'''
         pass
 
@@ -167,8 +236,8 @@ class Event:
         '''Python DocString'''
         if not isinstance(value, dt.date):
             raise TypeError("The name must be of type datetime.date")
-        if not value >= Event.MIN_VALUE:
-            raise ValueError("The date of the event must be greather then or equal to today.")
+        if not value >= Event.MIN_DAY:
+            raise ValueError("The date of the event must be greather than or equal to today.")
         self._date = value
 
     @property
@@ -233,6 +302,6 @@ class Event:
             raise TypeError("The description must be of type str.")
         self._description = value
     
-    def __len__(self, value: 'Event') -> tuple[dt.datetime.hour|dt.datetime.minute]:
-        '''Python DocScrint'''
-        return duration(value)
+    # def __len__(self, value: 'Event') -> tuple[dt.datetime.hour|dt.datetime.minute]:
+    #     '''Python DocScrint'''
+    #     return duration(value)

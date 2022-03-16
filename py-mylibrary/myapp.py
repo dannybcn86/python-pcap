@@ -11,8 +11,8 @@ from pylib.entities import planning         # import pylib.entities.planning as 
 from pylib.entities import staff            # import pylib.entities.staff as staff
 
 from pylib.entities.geography import Location
-from pylib.entities.staff import Employee
-from pylib.entities.geometry import Color
+from pylib.entities.staff import Employee, SalesEmployee
+from pylib.entities.geometry import Color, AlphaColor, Shape, Square, Rectangle, Triangle
 
 
 
@@ -81,6 +81,9 @@ def main():
     print(my_codes[0:2])
     print(my_codes[-1])
 
+    ############################################################################################################
+    # Crides a la class Employee del mòdul pylib.entities.staff
+    ############################################################################################################
     print(F"DEFAULT_SALARY: {Employee.DEFAULT_SALARY} €")
     print(F"DEFAULT_PAYMENTS: {Employee.DEFAULT_PAYMENTS}")
     print(F"Counter: {Employee._counter}")
@@ -89,7 +92,9 @@ def main():
     e3 = Employee(firstname = "Elisabet", lastname = "Castro", birthdate = date(year = 1980, month = 10, day = 23), height = 1.80, weight = 90)
     e4 = Employee(firstname = "Enrique", lastname = "Ramirez", birthdate = date(year = 1980, month = 10, day = 23), height = 1.70, weight = 75)
     e5 = Employee(firstname = "Jordi", lastname = "Alejandro", birthdate = date(year = 1980, month = 10, day = 23), height = 1.90, weight = 95)
-    employees = [e1,e2,e3,e4,e5]
+    e6 = SalesEmployee(firstname = "Jordi", lastname = "Alejandro", birthdate = date(year = 1980, month = 10, day = 23), height = 1.90, weight = 95, commission = 5000)
+
+    employees = (e1,e2,e3,e4,e5,e6)
     for employee in employees:
         print("-" * 150)
         print(F"Code: {employee.code}")
@@ -104,6 +109,7 @@ def main():
         print(F"Reversename: {employee.reverse_name()}")
         print(F"Age: {employee.age()} years")
         print(F"BMI: {employee.bmi()}")
+        print(F"Annual Salary: {employee.annual_salary()}")
         print("-" * 150)
     
     # Comparativa amb els magic methods __lt__, __le__, __gt__, __ge__
@@ -121,7 +127,11 @@ def main():
     e1 - 100
     e1 / 5
     print("*" * 150)
+    ############################################################################################################
 
+    ############################################################################################################
+    # Crides a la class Location del mòdul pylib.entities.geography
+    ############################################################################################################
     print(F"Latitude: ({Location.MIN_LATITUDE:+},{Location.MAX_LATITUDE:+})")
     print(F"Longitude: ({Location.MIN_LONGITUDE:+},{Location.MAX_LONGITUDE:+})")
     print(F"Counter: {Location._counter}")
@@ -160,8 +170,11 @@ def main():
     print(f"BCN-PARIS: {bcn.midpoint_to(paris).to_degrees()}")
 
     print(f"Count: {Location.count()}")
+    ############################################################################################################
 
-
+    ############################################################################################################
+    # Crides a la class Color del mòdul pylib.entities.geometry
+    ############################################################################################################
     c1 = Color(name = "Black", red = 0, green = 0, blue = 0)
     c2 = Color(name = "White", red = 255, green = 255, blue = 255)
     c3 = Color(name = "Black", red = 0, green = 0, blue = 0)
@@ -171,6 +184,9 @@ def main():
     c7 = Color.random()
     c8 = Color.from_hex("#FF0000")
     c9 = Color.from_hex("#008000")
+    c10 = Color(name= "My color 1", red = 0, green = 25, blue = 75)
+    c11 = Color(name= "My color 2", red = 0, green = 25, blue = 75)
+    c12 = AlphaColor(name = "My AlphaColor", red = 50, green = 90, blue = 99, alpha = 50)
     
     print("*" * 150)
     print("*" * 150)
@@ -180,14 +196,16 @@ def main():
     print("*" * 150)
     print("*" * 150)
     
-    colors = (c1,c2,c3,c4,c5,c6,c7,c8,c9)
+    colors = (c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
 
     for color in colors:
         print("-" * 150)
         print(f"Color: {color.to_hex()}")
         print(f"Color: {color.to_rgb()}")
         print("-" * 150)
-
+    
+    figure = Shape(c8, c9)
+    ############################################################################################################
 
 if __name__ == "__main__":
     main()
