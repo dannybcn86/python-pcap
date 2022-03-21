@@ -2,6 +2,7 @@
 Planning Module
 '''
 import datetime as dt
+from time import time
 from pylib.entities import geometry
 from pylib.utils import strutils
 
@@ -97,15 +98,12 @@ def year_progress(pretty: bool = True, year: int = current_year()) -> float|str:
 
     #raise NotImplementedError("Not yet implemented!!!")
 
-def to_timestamp(date: 'dt.date', time: 'dt.datetime'):
+def to_dhm(value):
     '''Python DocString'''
-    ourdatetime = f"{date}, {time}"
-
-    return dt.datetime.strptime(ourdatetime)
-
-def to_dhm(diff_timestamp):
-    '''Python DocString'''
-    return (dt.datetime.fromtimestamp(diff_timestamp).day,dt.datetime.fromtimestamp(diff_timestamp).hour, dt.datetime.fromtimestamp(diff_timestamp).minute)
+    dia = dt.datetime.fromtimestamp(value).day
+    hora = dt.datetime.fromtimestamp(value).hour
+    minut = dt.datetime.fromtimestamp(value).minute
+    return (dia,hora, minut)
 
 # TIPUS DE DADES PROPIS (CLASSES)
 class Event:
@@ -131,12 +129,12 @@ class Event:
         self.description = description
 
     
-    def duration(self, date: 'dt.date.day', start_time: 'dt.datetime', end_time: 'dt.datetime'):
+    def duration(self, date: 'dt.date.day', start_time: 'dt.datetime', end_time: 'dt.datetime') -> tuple[dt.datetime|dt.datetime]:
         '''Python DocString'''
         start_timestamp = dt.datetime.combine(date = date, time=start_time).timestamp()
         end_timestamp = dt.datetime.combine(date = date, time=end_time).timestamp()
         diff_timestamp = end_timestamp - start_timestamp
-        (dia, hora, minut) = to_dhm(diff_timestamp)
+        (dia, hora, minut) = to_dhm(value=diff_timestamp)
         return (hora,minut)
 
     def time_left(self,date:dt.date, start_time:dt.time) -> 'tuple[dt.date|dt.time|dt.time]|str':
@@ -146,10 +144,11 @@ class Event:
         
         if aratimestamp < datainicitimestamp:
             diff_timestamp = datainicitimestamp - aratimestamp
-            (dia, hora, minut) =  to_dhm(diff_timestamp)
+            (dia, hora, minut) =  to_dhm(value=diff_timestamp)
             return (dia, hora, minut)
         else:
             print("L'event està succeint o ja ha succeit")
+            return False
 
     def time_passed(self,date:dt.date, end_time:dt.time) ->bool:
         '''Temps des de la data de finalització del event'''
@@ -162,40 +161,41 @@ class Event:
             return (dia, hora, minut)
         else:
             print("L'event està succeint o encara no ha succeit")
+            return False
 
     def uncoming(self, date:dt.date, start_time:dt.time) ->bool:
         '''La funció retorna True si encara no ha començat'''
-        aratimestamp = dt.datetime.now().timestamp()
-        datainicitimestamp = dt.datetime.combine(date = date, time=start_time).timestamp()
+        ara = dt.datetime.now()
+        datainici = dt.datetime.combine(date = date, time=start_time)
         
-        return True if aratimestamp < datainicitimestamp else False
+        return True if ara < datainici else False
 
     def inprogress(self, date:dt.date, start_time:dt.time, end_time:dt.time) -> bool:
         '''La funció retorna True si està succeint'''
-        aratimestamp = dt.datetime.now().timestamp()
-        datainicitimestamp = dt.datetime.combine(date = date, time=start_time).timestamp()
-        datafitimestamp = dt.datetime.combine(date = date, time=end_time).timestamp()
+        ara = dt.datetime.now()
+        datainici = dt.datetime.combine(date = date, time=start_time)
+        datafi = dt.datetime.combine(date = date, time=end_time)
 
-        return True if datainicitimestamp <= aratimestamp <= datafitimestamp else False
+        return True if datainici <= ara <= datafi else False
 
     def finished(self, date:dt.date, end_time:dt.time) -> bool:
         '''La funció retorna True si ha finalitzat'''
-        aratimestamp = dt.datetime.now().timestamp()
-        datafitimestamp = dt.datetime.combine(date = date, time=end_time).timestamp()
+        ara = dt.datetime.now()
+        datafi = dt.datetime.combine(date = date, time=end_time)
 
-        return True if aratimestamp > datafitimestamp else False
+        return True if ara > datafi else False
 
     def is_before(self, other: 'Event') -> bool:
         '''La funció retorna True si el nou event és avans del primer'''
-        pass
+        True if self.start_time > other.end_time else False
 
     def is_after(self, other: 'Event') -> bool:
         '''La funció retorna True si el nou event és després del primer'''
-        pass
+        True if other.start_time > self.end_time else False
 
     def overloaps(self, other: 'Event') -> bool:
         '''La funció retorna True si el nou event coincideix amb el primer'''
-        pass
+        True if ( self.start_time <= other.start_time <= self.end_time ) or (other.start_time <= self.start_time <= other.end_time) else False
 
     @classmethod
     def sample(cls):
@@ -246,10 +246,10 @@ class Event:
         return self._date
     
     @start_time.setter
-    def start_time(self, value: 'dt.datetime.time'):
+    def start_time(self, value: 'dt.datetime'):
         '''Python DocString'''
-        if not isinstance(value, dt.datetime.time):
-            raise TypeError("The name must be of type datetime.datetime.time")
+        if not isinstance(value, dt.datetime):
+            raise TypeError("The name must be of type datetime.datetime")
         self._start_time = value
 
     @property
@@ -258,10 +258,10 @@ class Event:
         return self._date
     
     @end_time.setter
-    def end_time(self, value: 'dt.datetime.time'):
+    def end_time(self, value: 'dt.datetime'):
         '''Python DocString'''
-        if not isinstance(value, dt.datetime.time):
-            raise TypeError("The name must be of type datetime.datetime.time")
+        if not isinstance(value, dt.datetime):
+            raise TypeError("The name must be of type datetime.datetime")
         if not value > Event.start_time:
             raise ValueError("End time must be greather than start time.")
         self._end_time = value
@@ -302,6 +302,39 @@ class Event:
             raise TypeError("The description must be of type str.")
         self._description = value
     
-    # def __len__(self, value: 'Event') -> tuple[dt.datetime.hour|dt.datetime.minute]:
-    #     '''Python DocScrint'''
-    #     return duration(value)
+    def __str__(self) -> str:
+        '''Python DocString'''
+        return f"{self.name} > {dt.datetime.combine(date=self.date, time=self.start_time)}"
+    
+    def __repr__(self):
+        '''Python DocString'''
+        return f"Id: {self.id}, Event: {self.name}, Programació: {self.date} {self.start_time} to {self.end_time}, background_color: {self.background_color}, public: {self.public}, description: {self.description}"
+
+    def __len__(self) -> tuple[dt.datetime.minute]:
+        '''Python DocScrint'''
+        return self.duration()
+    
+    def __sub__(self, other: 'Event') -> tuple[dt.datetime.day|dt.datetime.hour|dt.datetime.minute]:
+        '''Funció de retorna dies, hores i minuts entre dos events'''
+        if self.is_after(other):
+            duration = self.duration(self.end_time,other.start_time)
+        elif self.is_before(other):
+            duration = self.duration(other.end_time,self.start_time)
+        return duration
+
+    def __lt__(self, other: 'Event') -> bool:
+        '''Python DocString'''
+        pass
+
+    def __le__(self, other: 'Event') -> bool:
+        '''Python DocString'''
+        pass
+
+    def __gt__(self, other: 'Event') -> bool:
+        '''Python DocString'''
+        pass
+
+    def __ge__(self, other: 'Event') -> bool:
+        '''Python DocString'''
+        pass
+    
