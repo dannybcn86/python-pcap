@@ -1,6 +1,8 @@
 # print() function takes in any number of parameters and prints them out on one line of text. 
-# The items are each converted to text form, separated by spaces, and there is a single '\n' at the end (the "newline" char). 
-# When called with zero parameters, print() just prints the '\n' and nothing else.
+# The items are each converted to text form, separated by spaces, and there is a single '
+' at the end (the "newline" char). 
+# When called with zero parameters, print() just prints the '
+' and nothing else.
 
 print()
 print("Hello world from Python with double quotes")
@@ -20,14 +22,20 @@ print("S1", "S2", "S3", "S4",)
 print('S1', 'S2', 'S3', 'S4')
 
 print("S1", "S2", "S3", "S4", sep = "****")
-print("S1", "S2", "S3", "S4", end = "\n---------------------------------------\n")
+print("S1", "S2", "S3", "S4", end = "
+---------------------------------------
+")
 
-print("S1", "S2", "S3", "S4", end = "\n", sep = "****")
-print("S1", "S2", "S3", "S4", sep = "****", end = "\n")
+print("S1", "S2", "S3", "S4", end = "
+", sep = "****")
+print("S1", "S2", "S3", "S4", sep = "****", end = "
+")
 
 print("-" * 50)
 
-print("You can write a new line character inside with \\n \n")
+print("You can write a new line character inside with \
+ 
+")
 print("You can write \\ character")
 
 print("-" * 50)

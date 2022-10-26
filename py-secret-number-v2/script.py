@@ -51,7 +51,8 @@ def main():
             
             print("-" * 150)
             total_numbers = max_secret_number - min_secret_number + 1
-            player_number = int(input(f"Game {num_games:02d} > Attempt {num_attempts} (P: {1/(total_numbers):.2%} -> {total_numbers} numbers)\nPlease {player_name}, select a number between {MIN_NUMBER} - {MAX_NUMBER}: "))
+            player_number = int(input(f"Game {num_games:02d} > Attempt {num_attempts} (P: {1/(total_numbers):.2%} -> {total_numbers} numbers)
+Please {player_name}, select a number between {MIN_NUMBER} - {MAX_NUMBER}: "))
             print("-" * 150)
 
             if (player_number < MIN_NUMBER or player_number > MAX_NUMBER):

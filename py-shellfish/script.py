@@ -48,8 +48,10 @@ while play_game:
         print(f"{i:^25}", end = "")
     
     print()
-    print("\n¿Donde está la pelota? ¿aquí o allí? ¿Donde está la pelota? ¿aquí o allí?")
-    print("Venga hagan sus apuestas... que me quitan el dinero de las manos.\n")
+    print("
+¿Donde está la pelota? ¿aquí o allí? ¿Donde está la pelota? ¿aquí o allí?")
+    print("Venga hagan sus apuestas... que me quitan el dinero de las manos.
+")
     
     # Incrementamos el número de partidas en 1
     total_games += 1
@@ -97,11 +99,13 @@ while play_game:
     if (current_cube == selected_cube) :
         current_quantity += current_bet # Actualizamos la cantidad disponible del concursante
         win_games +=1                   # Actualizamos el número de partidas ganadas
-        print(F"Enhorabuena {competitor_name}, has acertado!!!La pelotita se encontraba en el cubo C{current_cube}.\n")
+        print(F"Enhorabuena {competitor_name}, has acertado!!!La pelotita se encontraba en el cubo C{current_cube}.
+")
     else:
         current_quantity -= current_bet  #Actualizamos la cantidad disponible del concursante
         loses_games +=1                  #Actualizamos el número de partidas perdidas
-        print(F"Lo siento mucho {competitor_name}, has fallado!!!. La pelotita se encontraba en el cubo C{current_cube} y tu elegiste el cubo C{selected_cube}\n")
+        print(F"Lo siento mucho {competitor_name}, has fallado!!!. La pelotita se encontraba en el cubo C{current_cube} y tu elegiste el cubo C{selected_cube}
+")
 
 
     # Mostramos estadísticas
@@ -115,7 +119,9 @@ while play_game:
     print("-" * 150)
     
     if current_quantity == 0 :
-        print(f"\n\n----->Lo siento mucho {competitor_name} te has quedado sin dinero!!!!!!!!. Debes abandonar la mesa de juego.")
+        print(f"
+
+----->Lo siento mucho {competitor_name} te has quedado sin dinero!!!!!!!!. Debes abandonar la mesa de juego.")
         play_game = False
 
     

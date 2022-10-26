@@ -14,8 +14,6 @@ from pylib.entities.geography import Location
 from pylib.entities.staff import Employee, SalesEmployee
 from pylib.entities.geometry import Color, AlphaColor, Shape, Square, Rectangle, Triangle
 
-
-
 # Definició del mòdul principal main()
 def main():
     '''

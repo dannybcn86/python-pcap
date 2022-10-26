@@ -53,7 +53,8 @@ def main():
             
             print("-" * 150)
             total_letters = letters.index(max_secret_letter) - letters.index(min_secret_letter) + 1
-            player_letter = input(f"Game {num_games:02d} > Attempt {num_attempts} (P: {1/(total_letters):.2%} -> {total_letters} letters)\nPlease {player_name}, select a letter between {MIN_LETTER} - {MAX_LETTER}: ")
+            player_letter = input(f"Game {num_games:02d} > Attempt {num_attempts} (P: {1/(total_letters):.2%} -> {total_letters} letters)
+Please {player_name}, select a letter between {MIN_LETTER} - {MAX_LETTER}: ")
             player_letter = player_letter.upper()
             print("-" * 150)
 
